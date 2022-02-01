@@ -32,8 +32,6 @@
 **/models/*
 *.pt
 
-**/samples/*
-
 #/images/
 **/assets/*
 
