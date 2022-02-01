@@ -1,5 +1,7 @@
 Projektübersicht zu OR-Warehouse Reinforcement Learning
 
+![Sample 1](https://github.com/ml-jzimmermann/reinforcement-learning-in-operations-research/blob/master/samples/sample_1.gif) ![Sample 2](https://github.com/ml-jzimmermann/reinforcement-learning-in-operations-research/blob/master/samples/sample_2.gif) 
+
 Struktur:
  - src/
 beinhaltet den allgemeinen Code für die Agenten, die Netzwerke und das Experience Memory
