@@ -8,17 +8,13 @@ from multiprocessing import Pool
 import time
 from tqdm import tqdm
 
-checkpoint = torch.load('../../models/pytorch_warehouse_v7_xl_12_lstmdqn_09.10_15.57_200000.pt',
+checkpoint = torch.load('../../models/v7/pytorch_warehouse_v7_xl_12_lstmdqn_09.10_15.57_200000.pt',
                         map_location=torch.device('cpu'))
 warehouse = WarehouseV7(num_aisles=checkpoint['config']['num_aisles'], rack_height=checkpoint['config']['rack_height'],
                         min_packets=checkpoint['config']['min_packets'],
                         max_packets=checkpoint['config']['max_packets'], seed=checkpoint['config']['np_seed'])
 
-checkpoint['config']['init_weights'] = False
 checkpoint['config']['device'] = 'cpu'
-checkpoint['config']['combined_memory'] = False
-checkpoint['config']['bidirectional'] = False
-checkpoint['config']['ylim'] = (-250, 250)
 
 agent = RecurrentQAgent(env=warehouse, model=LstmDQN, config=checkpoint['config'])
 agent.compile()

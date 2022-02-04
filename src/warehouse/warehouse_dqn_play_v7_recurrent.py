@@ -10,11 +10,7 @@ warehouse = WarehouseV7(num_aisles=checkpoint['config']['num_aisles'], rack_heig
                         min_packets=checkpoint['config']['min_packets'],
                         max_packets=checkpoint['config']['max_packets'], seed=checkpoint['config']['np_seed'])
 
-checkpoint['config']['init_weights'] = False
 checkpoint['config']['device'] = 'cpu'
-checkpoint['config']['combined_memory'] = False
-checkpoint['config']['bidirectional'] = False
-checkpoint['config']['ylim'] = (-550, 250)
 
 agent = RecurrentQAgent(env=warehouse, model=LstmDQN, config=checkpoint['config'])
 agent.compile()
