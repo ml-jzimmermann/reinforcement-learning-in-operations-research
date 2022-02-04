@@ -8,14 +8,11 @@ from gym.spaces import Discrete
 # the walls are printed as extra characters -> the agent has to skip them during horizontal travel
 def _get_render_index(width):
     indices = {
-        0: 1,
-        1: 3,
-        2: 4,
-        3: 6,
-        4: 8,
-        5: 9,
+        0: 2,
+        1: 5,
+        2: 6,
     }
-    return (width // 6) * 10 + indices[width % 6]
+    return (width // 3) * 7 + indices[width % 3]
 
 
 class WarehouseV7:
@@ -178,16 +175,16 @@ class WarehouseV7:
     # q-values can be included
     def render(self, current_q_values=None):
         render_string = ''
-        render_row = '_' * (self.width + (self.num_racks * 2) + 2) + '\n'
+        render_row = '_' * ((self.num_aisles + 2) * 5 + (self.num_racks * 2)) + '\n'
         render_string += render_row
         agent_index = _get_render_index(self.agent_position[0])
-        render_row = '|' + '  __ ' * self.num_racks + ' |' + '\n'
+        render_row = '|' + '    __ ' * self.num_racks + '   |' + '\n'
         if self.agent_position[1] == 0:
-            render_row = render_row[:agent_index] + 'A' + render_row[agent_index + 1:]
+            render_row = render_row[:agent_index - 1] + ' A ' + render_row[agent_index + 2:]
         render_string += render_row
 
         for row in range(1, self.rack_height):
-            render_row = '|' + ' |  |' * self.num_racks + ' |' + '\n'
+            render_row = '|' + '   |  |' * self.num_racks + '   |' + '\n'
             if self.agent_position[1] == row:
                 render_row = render_row[:agent_index] + 'A' + render_row[agent_index + 1:]
             for packet in self.packets:
@@ -197,7 +194,7 @@ class WarehouseV7:
 
             render_string += render_row
 
-        render_row = '|' + ' |__|' * self.num_racks + ' |' + '\n'
+        render_row = '|' + '   |__|' * self.num_racks + '   |' + '\n'
         if self.agent_position[1] == self.rack_height:
             render_row = render_row[:agent_index] + 'A' + render_row[agent_index + 1:]
         for packet in self.packets:
@@ -206,9 +203,9 @@ class WarehouseV7:
                 render_row = render_row[:packet_index] + 'P' + render_row[packet_index + 1:]
         render_string += render_row
 
-        render_row = '|' + '_' * (self.width + (self.num_racks * 2)) + '|' + '\n'
+        render_row = '|' + '_' * ((self.num_aisles + 2) * 5 + (self.num_racks * 2) - 2) + '|' + '\n'
         if self.agent_position[1] == self.rack_height + 1:
-            render_row = render_row[:agent_index] + 'A' + render_row[agent_index + 1:]
+            render_row = render_row[:agent_index - 1] + ' A ' + render_row[agent_index + 2:]
         render_string += render_row
         render_string += ' ' * (_get_render_index(self.target_index) - 1) + '|D|'
         render_string += '\n'
@@ -219,5 +216,16 @@ class WarehouseV7:
                 q_string += f' {self.get_action_label(i).upper()}: {q_value:6.2f} |'
             q_string += '\n'
             render_string += q_string
+
+        # better agent including wider ailes
+        render_string = render_string.replace(' A ', ' 🤖')
+        render_string = render_string.replace('| |', '|   |')
+
+        # better packages
+        render_string = render_string.replace('P|', '📦')
+        render_string = render_string.replace('|P', '📦')
+
+        # better deposit
+        render_string = render_string.replace('|D|', ' 🛒')
 
         print(render_string)
