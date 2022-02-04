@@ -16,15 +16,11 @@ Metriken und Graphen.
  - src/taxi
 enthält den Trainingscode für die Taxi Umgebung.
 
-Die Dateien mit "_play" starten einen Agenten auf Basis eines Checkpoints, um die Leistung
+Die Dateien mit "\_play" starten einen Agenten auf Basis eines Checkpoints, um die Leistung
 mitverfolgen und einschätzen zu können.
 
-Es finden sich hier und da Elemente, die es nicht in die schriftliche Ausarbeitung geschafft haben:
- - LstmDQN
- - CombinedReplayMemory
-Die jeweiligen Stellen sind markiert und der Ursprung der Idee angegeben.
 
-Da die Parameter in jedem Skript vorkommen, fasse ich sie hier einmal zusammen:
+Übersicht über die Trainingsparameter:
 
 hyperparameters = { \
     # training \
